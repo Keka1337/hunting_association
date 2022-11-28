@@ -60,9 +60,10 @@ public class Venison {
     @Override
     public String toString() {
         return "Venison{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", maxNum=" + maxNum +
-                ", appoitments=" + appointments +
+                ", appointments=" + appointments +
                 '}';
     }
 }

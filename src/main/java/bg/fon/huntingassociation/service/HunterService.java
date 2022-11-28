@@ -14,28 +14,28 @@ public class HunterService {
     private final HunterRepository hunterRepository;
 
     @Autowired
-    public HunterService(HunterRepository hunterRepository){
+    public HunterService(HunterRepository hunterRepository) {
         this.hunterRepository = hunterRepository;
     }
 
-    public Hunter addHunter(Hunter hunter){
+    public Hunter addHunter(Hunter hunter) {
         return hunterRepository.save(hunter);
     }
 
-    public List<Hunter> findAllHunters(){
-        return  hunterRepository.findAll();
+    public List<Hunter> findAllHunters() {
+        return hunterRepository.findAll();
     }
 
-    public Hunter updateHunter(Hunter hunter){
+    public Hunter updateHunter(Hunter hunter) {
         return hunterRepository.save(hunter);
     }
 
-    public Hunter findHunterById(Long id){
+    public Hunter findHunterById(Long id) {
         return hunterRepository.findHunterById(id).orElseThrow(
-                ()-> new HunterNotFoundException("Hunter with id + " + id + " is not found."));
+                () -> new HunterNotFoundException("Hunter with id + " + id + " is not found."));
     }
 
-    public void deleteHunter(Long hunterId){
+    public void deleteHunter(Long hunterId) {
         hunterRepository.deleteHunterById(hunterId);
     }
 }

@@ -15,10 +15,14 @@ public class Team {
     private List<Hunter> hunters;
     private int members;
 
-    public Team(String name, List<Hunter> hunters, int members) {
+    @OneToMany(mappedBy = "team")
+    private List<Appointment> appointments;
+
+    public Team(String name, List<Hunter> hunters, int members, List<Appointment> appointments) {
         this.name = name;
         this.hunters = hunters;
         this.members = members;
+        this.appointments = appointments;
     }
 
     public Long getId() {
@@ -53,6 +57,14 @@ public class Team {
         this.members = members;
     }
 
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
+    }
+
     @Override
     public String toString() {
         return "Team{" +
@@ -60,6 +72,7 @@ public class Team {
                 ", name='" + name + '\'' +
                 ", hunters=" + hunters +
                 ", members=" + members +
+                ", appointments=" + appointments +
                 '}';
     }
 }

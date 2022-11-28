@@ -14,13 +14,17 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(name = "venison_id")
     private Venison venison;
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 
     public Appointment() {
     }
 
-    public Appointment(Date date, Venison venison) {
+    public Appointment(Date date, Venison venison, Team team) {
         this.date = date;
         this.venison = venison;
+        this.team = team;
     }
 
     public Date getDate() {
@@ -39,12 +43,29 @@ public class Appointment {
         this.venison = venison;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
     @Override
     public String toString() {
         return "Appointment{" +
                 "id=" + id +
                 ", date=" + date +
                 ", venison=" + venison +
+                ", team=" + team +
                 '}';
     }
 }
