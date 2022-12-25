@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.bind.ValidationException;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -14,9 +16,11 @@ import java.util.List;
 public class AppointmentResource {
 
     private final AppointmentService appointmentService;
+    private final AppointmentManager appointmentManager;
 
-    public AppointmentResource(AppointmentService appointmentService) {
+    public AppointmentResource(AppointmentService appointmentService, AppointmentManager appointmentManager) {
         this.appointmentService = appointmentService;
+        this.appointmentManager = appointmentManager;
     }
 
     @GetMapping("/all")
@@ -49,4 +53,18 @@ public class AppointmentResource {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/makeForTeam/{teamId}/venison/{venisonId}/{date}")
+    public ResponseEntity<?> makeAppointmentFroTeam(@PathVariable("teamId") Long teamId,
+                                                    @PathVariable("venisonId") Long venisonId,
+                                                    @PathVariable("date") Date date) {
+        try {
+            Appointment appointment = appointmentManager.makeAppointmentForTeam(teamId,venisonId,date);
+            return new ResponseEntity<>(appointment, HttpStatus.OK);
+        }catch (ValidationException e){
+            return new ResponseEntity<>("DATE IS NOT PROVIDED! " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        catch (RuntimeException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
