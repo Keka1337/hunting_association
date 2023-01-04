@@ -1,11 +1,10 @@
 package bg.fon.huntingassociation.service;
 
 import bg.fon.huntingassociation.domain.Appointment;
-import bg.fon.huntingassociation.domain.Hunter;
 import bg.fon.huntingassociation.exception.AppointmentNotFoundException;
-import bg.fon.huntingassociation.exception.HunterNotFoundException;
 import bg.fon.huntingassociation.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,4 +38,5 @@ public class AppointmentService {
     public void deleteAppoitment(Long id) {
         this.appointmentRepository.deleteAppointmentById(id);
     }
+
 }

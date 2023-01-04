@@ -67,4 +67,13 @@ public class AppointmentResource {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+//    @GetMapping("/findByTeamId/{id}")
+//    public ResponseEntity<List<Appointment>> getAppointmentByTeamId(@PathVariable("teamId") Long teamId) {
+//        try{
+//            List<Appointment> appointments = this.appointmentService.findAppointmentsByTeamId(teamId);
+//            return new ResponseEntity<>(appointments, HttpStatus.OK);
+//        }catch (Exception e){
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 }

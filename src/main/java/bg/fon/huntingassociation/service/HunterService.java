@@ -30,7 +30,7 @@ public class HunterService {
         return hunterRepository.save(hunter);
     }
 
-    public Hunter findHunterById(Long id) {
+    public Hunter findHunterById(Long id) throws HunterNotFoundException {
         return hunterRepository.findHunterById(id).orElseThrow(
                 () -> new HunterNotFoundException("Hunter with id + " + id + " is not found."));
     }

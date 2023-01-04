@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.ValidationException;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,25 +31,19 @@ public class AppointmentManager {
         this.venisonService = venisonService;
     }
 
-    public Appointment makeAppointmentForTeam(Long teamId, Long venisonId, Date date)
-            throws TeamNotFoundException, VenisonNotFoundException, ValidationException {
-        checkDate(date);
-        Team team = teamService.findTeamById(teamId);
-        if(team == null)
-            throw new TeamNotFoundException("Team with id: " + teamId + " does not exist!");
-        Venison venison = venisonService.findVenisonById(venisonId);
-        if(venison == null)
-            throw new VenisonNotFoundException("Venison with id: " + venisonId + " does not exist!");
-        Appointment appointment = new Appointment();
-        appointment.setTeam(team);
-        appointment.setVenison(venison);
-        appointmentService.addAppointment(appointment);
-        LOGGER.log(Level.INFO, "Appointment has been successfully made for team " + team.getName());
-        return appointment;
+    public Appointment makeAppointmentForTeam(Long teamId, Long venisonId, Date date) throws ValidationException {
+            venisonService.chekDate(date,venisonId);
+            Team team = teamService.findTeamById(teamId);
+            Venison venison = venisonService.findVenisonById(venisonId);
+            if(team == null || venison == null)
+                throw new ValidationException("In order to make an apoitment, you have to provide" +
+                        "all the information!");
+            Appointment appointment = new Appointment();
+            appointment.setTeam(team);
+            appointment.setVenison(venison);
+            appointment.setDate(date);
+            appointmentService.addAppointment(appointment);
+            LOGGER.log(Level.INFO, "Appointment has been successfully made for team " + team.getName());
+            return appointment;
     }
-
-    private void checkDate(Date date) throws ValidationException {
-
-    }
-
 }
