@@ -53,7 +53,7 @@ public class AppointmentResource {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/makeForTeam/{teamId}/venison/{venisonId}/{date}")
+    @PostMapping("/make/team{teamId}/venison{venisonId}/date{date}")
     public ResponseEntity<?> makeAppointmentFroTeam(@PathVariable("teamId") Long teamId,
                                                     @PathVariable("venisonId") Long venisonId,
                                                     @PathVariable("date") Date date) {
@@ -67,13 +67,13 @@ public class AppointmentResource {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-//    @GetMapping("/findByTeamId/{id}")
-//    public ResponseEntity<List<Appointment>> getAppointmentByTeamId(@PathVariable("teamId") Long teamId) {
-//        try{
-//            List<Appointment> appointments = this.appointmentService.findAppointmentsByTeamId(teamId);
-//            return new ResponseEntity<>(appointments, HttpStatus.OK);
-//        }catch (Exception e){
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//    }
+    @GetMapping("/findByTeamId/{teamId}")
+    public ResponseEntity<List<Appointment>> getAppointmentByTeamId(@PathVariable("teamId") Long teamId) {
+        try{
+            List<Appointment> appointments = this.appointmentService.findAppointmentsByTeamId(teamId);
+            return new ResponseEntity<>(appointments, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

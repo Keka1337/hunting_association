@@ -11,6 +11,10 @@ public class Address implements Serializable {
     private String city;
     private String postalCode;
 
+    public Address(){
+
+    }
+
     public Address(String street, String city, String postalCode) {
         this.street = street;
         this.city = city;

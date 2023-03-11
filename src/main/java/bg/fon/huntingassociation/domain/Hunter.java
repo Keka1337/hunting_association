@@ -16,7 +16,7 @@ public class Hunter implements Serializable {
     @Embedded
     private Address address;
 
-    @Column(name = "licence_number", updatable = false)
+    @Column(name = "licence_number", updatable = false, unique = true)
     private String licenceNum;
     @ManyToOne
     @JoinColumn(name="team_id")

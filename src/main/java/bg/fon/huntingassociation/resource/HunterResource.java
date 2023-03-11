@@ -2,10 +2,14 @@ package bg.fon.huntingassociation.resource;
 
 import bg.fon.huntingassociation.domain.Hunter;
 import bg.fon.huntingassociation.service.HunterService;
+import org.apache.coyote.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.bind.ValidationException;
 import java.util.List;
 
 @RestController
@@ -13,6 +17,7 @@ import java.util.List;
 public class HunterResource {
 
     private final HunterService hunterService;
+    Logger LOG = LoggerFactory.getLogger(HunterResource.class);
 
     public HunterResource(HunterService hunterService) {
         this.hunterService = hunterService;
@@ -32,8 +37,12 @@ public class HunterResource {
 
     @PostMapping("/add")
     public ResponseEntity<Hunter> addHunter(@RequestBody Hunter hunter) {
-        Hunter newHunter = this.hunterService.addHunter(hunter);
-        return new ResponseEntity<>(newHunter, HttpStatus.CREATED);
+        try {
+            return new ResponseEntity<>(this.hunterService.addHunter(hunter), HttpStatus.CREATED);
+        } catch (ValidationException e) {
+            LOG.error("Following error occured: " + e.getMessage());
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/update")

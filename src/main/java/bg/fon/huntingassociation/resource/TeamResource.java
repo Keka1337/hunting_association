@@ -3,16 +3,20 @@ package bg.fon.huntingassociation.resource;
 import bg.fon.huntingassociation.domain.Hunter;
 import bg.fon.huntingassociation.domain.Team;
 import bg.fon.huntingassociation.service.TeamService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.bind.ValidationException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/team")
 public class TeamResource {
 
+    private final Logger LOG = LoggerFactory.getLogger(TeamResource.class);
     private final TeamService teamService;
 
     public TeamResource(TeamService teamService) {
@@ -33,8 +37,12 @@ public class TeamResource {
 
     @PostMapping("/add")
     public ResponseEntity<Team> addTeam(@RequestBody Team team) {
-        Team newTeam = this.teamService.createTeam(team);
-        return new ResponseEntity<>(newTeam, HttpStatus.CREATED);
+        try {
+            return new ResponseEntity<>(this.teamService.createTeam(team), HttpStatus.CREATED);
+        } catch (ValidationException e) {
+            LOG.error("Following error occured: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/delete/{id}")

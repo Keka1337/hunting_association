@@ -18,11 +18,19 @@ public class Team {
     @OneToMany(mappedBy = "team")
     private List<Appointment> appointments;
 
+    public Team() {
+    }
+
     public Team(String name, List<Hunter> hunters, int members, List<Appointment> appointments) {
         this.name = name;
         this.hunters = hunters;
         this.members = members;
         this.appointments = appointments;
+    }
+
+    public Team(String name, int members) {
+        this.name = name;
+        this.members = members;
     }
 
     public Long getId() {

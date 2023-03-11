@@ -6,6 +6,7 @@ import bg.fon.huntingassociation.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.ValidationException;
 import java.util.List;
 
 @Service
@@ -18,8 +19,11 @@ public class TeamService {
         this.teamRepository = teamRepository;
     }
 
-    public Team createTeam(Team team){
-        return teamRepository.save(team);
+    public Team createTeam(Team team) throws ValidationException {
+        if(teamRepository.findTeamByName(team.getName())==null)
+            return teamRepository.save(team);
+        else
+            throw new ValidationException("Team with name " + team.getName() + " already exist!");
     }
 
     public List<Team> findAllTeams(){
