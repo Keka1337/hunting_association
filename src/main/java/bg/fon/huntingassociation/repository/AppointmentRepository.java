@@ -3,6 +3,7 @@ package bg.fon.huntingassociation.repository;
 import bg.fon.huntingassociation.domain.Appointment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
@@ -11,4 +12,5 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     Optional<Appointment> findAppointmentById(Long aLong);
 
+    List<Appointment> findALlByTeamId(Long teamId);
 }

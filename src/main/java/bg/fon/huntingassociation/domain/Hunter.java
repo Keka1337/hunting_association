@@ -109,6 +109,14 @@ public class Hunter implements Serializable {
         return address;
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
     @Override
     public String toString() {
         return "Hunter{" +
@@ -119,6 +127,7 @@ public class Hunter implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", address=" + address +
                 ", licenceNum='" + licenceNum + '\'' +
+                ", team=" + team +
                 '}';
     }
 }

@@ -1,16 +1,16 @@
 package bg.fon.huntingassociation.domain;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class Appointment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "appointment_id")
     private Long id;
-    private Date date;
+    private LocalDate date;
     @ManyToOne
     @JoinColumn(name = "venison_id")
     private Venison venison;
@@ -18,20 +18,23 @@ public class Appointment {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    private String comment;
+
     public Appointment() {
     }
 
-    public Appointment(Date date, Venison venison, Team team) {
+    public Appointment(LocalDate date, Venison venison, Team team, String comment) {
         this.date = date;
         this.venison = venison;
         this.team = team;
+        this.comment = comment;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -59,6 +62,14 @@ public class Appointment {
         this.team = team;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     @Override
     public String toString() {
         return "Appointment{" +
@@ -66,6 +77,7 @@ public class Appointment {
                 ", date=" + date +
                 ", venison=" + venison +
                 ", team=" + team +
+                ". comment=" + comment +
                 '}';
     }
 }

@@ -1,7 +1,7 @@
 package bg.fon.huntingassociation.domain;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -16,8 +16,8 @@ public class Venison {
     private String latinName;
     private String gender;
     //starting snd ending date of hunting season
-    private Date fromDate;
-    private Date toDate;
+    private LocalDate fromDate;
+    private LocalDate toDate;
     @Column(name = "max_number")
     private int maxNum;
     @OneToMany(mappedBy = "venison")
@@ -26,7 +26,7 @@ public class Venison {
     public Venison() {
     }
 
-    public Venison(String name, String latinName, String gender, Date fromDate, Date toDate, int maxNum) {
+    public Venison(String name, String latinName, String gender, LocalDate fromDate, LocalDate toDate, int maxNum) {
         this.name = name;
         this.latinName = latinName;
         this.gender = gender;
@@ -35,7 +35,7 @@ public class Venison {
         this.maxNum = maxNum;
     }
 
-    public Venison(String name, String gender, Date fromDate, Date toDate, int maxNum) {
+    public Venison(String name, String gender, LocalDate fromDate, LocalDate toDate, int maxNum) {
         this.name = name;
         this.gender = gender;
         this.fromDate = fromDate;
@@ -91,19 +91,19 @@ public class Venison {
         this.gender = gender;
     }
 
-    public Date getFromDate() {
+    public LocalDate getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(Date fromDate) {
+    public void setFromDate(LocalDate fromDate) {
         this.fromDate = fromDate;
     }
 
-    public Date getToDate() {
+    public LocalDate getToDate() {
         return toDate;
     }
 
-    public void setToDate(Date toDate) {
+    public void setToDate(LocalDate toDate) {
         this.toDate = toDate;
     }
 
