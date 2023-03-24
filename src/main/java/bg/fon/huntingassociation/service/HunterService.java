@@ -1,24 +1,18 @@
 package bg.fon.huntingassociation.service;
 
 import bg.fon.huntingassociation.domain.Hunter;
-import bg.fon.huntingassociation.domain.dtos.HunterDto;
 import bg.fon.huntingassociation.exception.HunterNotFoundException;
-import bg.fon.huntingassociation.mappers.HunterMapper;
 import bg.fon.huntingassociation.repository.HunterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.ValidationException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class HunterService {
 
     private final HunterRepository hunterRepository;
-
-    @Autowired
-    HunterMapper hunterMapper;
 
     @Autowired
     public HunterService(HunterRepository hunterRepository) {
@@ -34,21 +28,16 @@ public class HunterService {
     }
 
 
-    public List<HunterDto> findAllHunters() {
-        return hunterRepository
-                .findAll()
-                .stream()
-                .map(hunter -> hunterMapper.entityToDto(hunter))
-                .collect(Collectors.toList());
+    public List<Hunter> findAllHunters() {
+        return hunterRepository.findAll();
     }
 
     public Hunter updateHunter(Hunter hunter) {
         return hunterRepository.save(hunter);
     }
 
-    public Hunter findHunterByIdDto(Long id) throws HunterNotFoundException {
-        return hunterRepository.findHunterById(id).orElseThrow(
-                () -> new HunterNotFoundException("Hunter with id + " + id + " is not found."));
+    public Hunter findHunterById(Long id) throws HunterNotFoundException {
+        return hunterRepository.findHunterById(id);
     }
 
     public void deleteHunter(Long hunterId) {

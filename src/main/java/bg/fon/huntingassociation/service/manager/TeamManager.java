@@ -25,7 +25,7 @@ public class TeamManager {
 
     public void removeHunterFromTeam(Long teamId, Long hunterId) {
         Team team = teamService.findTeamById(teamId);
-        Hunter hunter = hunterService.findHunterByIdDto(hunterId);
+        Hunter hunter = hunterService.findHunterById(hunterId);
         if (team.getHunters().contains(hunter)) {
             hunter.setTeam(null);
             team.setMembers(team.getMembers() - 1);
@@ -36,7 +36,7 @@ public class TeamManager {
 
     public void addHunterToTeam(Long teamId, Long hunterId) {
         Team team = teamService.findTeamById(teamId);
-        Hunter hunter = hunterService.findHunterByIdDto(hunterId);
+        Hunter hunter = hunterService.findHunterById(hunterId);
         hunter.setTeam(team);
         team.setMembers(team.getMembers() + 1);
         teamService.updateTeam(team);

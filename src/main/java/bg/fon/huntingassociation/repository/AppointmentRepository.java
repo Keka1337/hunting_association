@@ -10,7 +10,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     void deleteAppointmentById(Long id);
 
-    Optional<Appointment> findAppointmentById(Long aLong);
+    Appointment findAppointmentById(Long aLong);
 
     List<Appointment> findALlByTeamId(Long teamId);
 }

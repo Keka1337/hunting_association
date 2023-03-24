@@ -1,7 +1,6 @@
 package bg.fon.huntingassociation.service;
 
 import bg.fon.huntingassociation.domain.Appointment;
-import bg.fon.huntingassociation.domain.dtos.AppointmentDto;
 import bg.fon.huntingassociation.exception.AppointmentNotFoundException;
 import bg.fon.huntingassociation.mappers.AppointmentMapper;
 import bg.fon.huntingassociation.repository.AppointmentRepository;
@@ -15,42 +14,36 @@ import java.util.stream.Collectors;
 public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
-    @Autowired
-    AppointmentMapper appointmentMapper;
+    private final AppointmentMapper appointmentMapper;
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository) {
+    public AppointmentService(AppointmentRepository appointmentRepository, AppointmentMapper appointmentMapper) {
         this.appointmentRepository = appointmentRepository;
+        this.appointmentMapper = appointmentMapper;
     }
 
-    public AppointmentDto addAppointment(Appointment appointment) {
-        return appointmentMapper.entityToDto(appointmentRepository.save(appointment));
+    public Appointment addAppointment(Appointment appointment) {
+        return appointmentRepository.save(appointment);
     }
 
-    public List<AppointmentDto> findAllAppointments() {
-        return this.appointmentRepository.findAll()
-                .stream()
-                .map(appointment -> appointmentMapper.entityToDto(appointment))
-                .collect(Collectors.toList());
+    public List<Appointment> findAllAppointments() {
+        return this.appointmentRepository.findAll();
     }
 
-    public AppointmentDto updateAppointment(Appointment appointment) {
-        return appointmentMapper.entityToDto(appointmentRepository.save(appointment));
+    public Appointment updateAppointment(Appointment appointment) {
+        return appointmentRepository.save(appointment);
     }
 
-    public AppointmentDto findAppointmentByIdDto(Long id) {
-       Appointment appointment = appointmentRepository.findById(id).orElseThrow(
+    public Appointment findAppointmentById(Long id) {
+        return appointmentRepository.findById(id).orElseThrow(
                 () -> new AppointmentNotFoundException("Appointment with id  " + id + " is not found."));
-        return appointmentMapper.entityToDto(appointment);
     }
 
     public void deleteAppoitment(Long id) {
         this.appointmentRepository.deleteAppointmentById(id);
     }
 
-    public List<AppointmentDto> findAppointmentsByTeamId(Long teamId) {
-        List<Appointment> appointments = appointmentRepository.findALlByTeamId(teamId);
-        return appointments.stream().map(appointment ->
-                appointmentMapper.entityToDto(appointment)).collect(Collectors.toList());
+    public List<Appointment> findAppointmentsByTeamId(Long teamId) {
+        return appointmentRepository.findALlByTeamId(teamId);
     }
 }

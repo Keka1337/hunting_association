@@ -1,9 +1,7 @@
 package bg.fon.huntingassociation.service;
 
 import bg.fon.huntingassociation.domain.Venison;
-import bg.fon.huntingassociation.domain.dtos.VenisonDto;
 import bg.fon.huntingassociation.exception.VenisonNotFoundException;
-import bg.fon.huntingassociation.mappers.VenisonMapper;
 import bg.fon.huntingassociation.repository.VenisonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,38 +9,27 @@ import org.springframework.stereotype.Service;
 import javax.xml.bind.ValidationException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class VenisonService {
 
     private final VenisonRepository venisonRepository;
-    @Autowired
-    VenisonMapper venisonMapper;
 
     @Autowired
     public VenisonService(VenisonRepository venisonRepository) {
         this.venisonRepository = venisonRepository;
     }
 
-    public VenisonDto addVenison(Venison venison) {
-        return venisonMapper.entityToDto(venisonRepository.save(venison));
+    public Venison addVenison(Venison venison) {
+        return venisonRepository.save(venison);
     }
 
-    public List<VenisonDto> findALlVenisons() {
-        return venisonRepository.findAll()
-                .stream()
-                .map(venison -> venisonMapper.entityToDto(venison))
-                .collect(Collectors.toList());
-    }
-
-    public VenisonDto findVenisonByIdDto(Long id) {
-        Venison venison = venisonRepository.findById(id).orElseThrow(() -> new VenisonNotFoundException("Venison with id: " + id + " does not exist."));
-        return  venisonMapper.entityToDto(venison);
+    public List<Venison> findALlVenisons() {
+        return venisonRepository.findAll();
     }
 
     public Venison findVenisonById(Long id){
-        return venisonRepository.findById(id).get();
+        return venisonRepository.findById(id).orElseThrow(()-> new VenisonNotFoundException("Venison with id: " + id + " does not exist."));
     }
 
     public void deleteVenison(Long id) {

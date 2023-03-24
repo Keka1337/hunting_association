@@ -1,7 +1,7 @@
 package bg.fon.huntingassociation.controller;
 
 import bg.fon.huntingassociation.domain.Hunter;
-import bg.fon.huntingassociation.domain.dtos.HunterDto;
+import bg.fon.huntingassociation.mappers.HunterMapper;
 import bg.fon.huntingassociation.service.HunterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,28 +19,29 @@ import java.util.List;
 public class HunterController {
 
     private final HunterService hunterService;
+    private final HunterMapper hunterMapper;
     Logger LOG = LoggerFactory.getLogger(HunterController.class);
 
-    public HunterController(HunterService hunterService) {
+    public HunterController(HunterService hunterService, HunterMapper hunterMapper) {
         this.hunterService = hunterService;
+        this.hunterMapper = hunterMapper;
     }
 
     @GetMapping("/all")
     public ResponseEntity<?> getAllHunters() {
-        List<HunterDto> hunters = hunterService.findAllHunters();
-        return new ResponseEntity<>(hunters, HttpStatus.OK);
+        List<Hunter> hunters = hunterService.findAllHunters();
+        return new ResponseEntity<>(hunters.stream().map(hunter -> hunterMapper.entityToDto(hunter)), HttpStatus.OK);
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<Hunter> getHunterById(@PathVariable("id") Long id) {
-        Hunter hunter = hunterService.findHunterByIdDto(id);
-        return new ResponseEntity<>(hunter, HttpStatus.OK);
+    public ResponseEntity<?> getHunterById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(hunterMapper.entityToDto(hunterService.findHunterById(id)), HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Hunter> addHunter(@RequestBody Hunter hunter) {
+    public ResponseEntity<?> addHunter(@RequestBody Hunter hunter) {
         try {
-            return new ResponseEntity<>(hunterService.addHunter(hunter), HttpStatus.CREATED);
+            return new ResponseEntity<>(hunterMapper.entityToDto(hunterService.addHunter(hunter)), HttpStatus.CREATED);
         } catch (ValidationException e) {
             LOG.error("Following error occured: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -48,9 +49,8 @@ public class HunterController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Hunter> updateHunter(@RequestBody Hunter hunter) {
-        Hunter updatedHunter = this.hunterService.updateHunter(hunter);
-        return new ResponseEntity<>(updatedHunter, HttpStatus.OK);
+    public ResponseEntity<?> updateHunter(@RequestBody Hunter hunter) {
+        return new ResponseEntity<>(hunterMapper.entityToDto(hunterService.updateHunter(hunter)), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

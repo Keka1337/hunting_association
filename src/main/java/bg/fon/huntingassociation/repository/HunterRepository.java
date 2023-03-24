@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface HunterRepository extends JpaRepository<Hunter, Long> {
     void deleteHunterById(Long id);
 
-    Optional<Hunter> findHunterById(Long id); //queryMethod
+    Hunter findHunterById(Long id); //queryMethod
 
     Hunter findByJmbg(String jmbg);
 
