@@ -35,13 +35,20 @@ public class TeamManager {
     }
 
     public void addHunterToTeam(Long teamId, Long hunterId) {
-        Team team = teamService.findTeamById(teamId);
         Hunter hunter = hunterService.findHunterById(hunterId);
-        hunter.setTeam(team);
-        team.setMembers(team.getMembers() + 1);
-        teamService.updateTeam(team);
-        hunterService.updateHunter(hunter);
+        Team newTeam = teamService.findTeamById(teamId);
 
+        if(hunter.getTeam() != null){
+            Team oldTeam = hunter.getTeam();
+            oldTeam.setMembers(oldTeam.getMembers() - 1);
+            teamService.updateTeam(oldTeam);
+        }
+
+        hunter.setTeam(newTeam);
+        newTeam.setMembers(newTeam.getMembers() + 1);
+
+        teamService.updateTeam(newTeam);
+        hunterService.updateHunter(hunter);
     }
 
 }

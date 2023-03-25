@@ -7,8 +7,8 @@ import bg.fon.huntingassociation.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AppointmentService {
@@ -22,7 +22,7 @@ public class AppointmentService {
         this.appointmentMapper = appointmentMapper;
     }
 
-    public Appointment addAppointment(Appointment appointment) {
+    public Appointment createAppointment(Appointment appointment) {
         return appointmentRepository.save(appointment);
     }
 
@@ -45,5 +45,12 @@ public class AppointmentService {
 
     public List<Appointment> findAppointmentsByTeamId(Long teamId) {
         return appointmentRepository.findALlByTeamId(teamId);
+    }
+
+    public boolean checkIfAppointmentIsAlreadyMade(Long teamId, Long venisonId, LocalDate date) {
+        Appointment appointment = appointmentRepository.checkIfAppointmentExists(teamId, venisonId, date);
+        if (appointment == null)
+            return false;
+        return true;
     }
 }

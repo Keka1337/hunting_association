@@ -33,7 +33,7 @@ public class TeamController {
     @GetMapping("/all")
     public ResponseEntity<?> getAllTemas() {
         List<Team> teams = this.teamService.findAllTeams();
-        return new ResponseEntity<>(teams, HttpStatus.OK);
+        return new ResponseEntity<>(teams.stream().map(team -> teamMapper.entityToDto(team)), HttpStatus.OK);
     }
 
     @GetMapping("/find/{id}")
@@ -71,6 +71,7 @@ public class TeamController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //sets new team for hunter and updates number of members (in new and in old team)
     @PatchMapping("/add/hunter/{hunterId}/team/{teamId}")
     public ResponseEntity<?> addHunterToTeam(@PathVariable("teamId") Long teamId,
                                              @PathVariable("hunterId") Long hunterId) {

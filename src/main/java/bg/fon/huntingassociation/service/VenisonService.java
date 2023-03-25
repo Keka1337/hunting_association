@@ -28,8 +28,8 @@ public class VenisonService {
         return venisonRepository.findAll();
     }
 
-    public Venison findVenisonById(Long id){
-        return venisonRepository.findById(id).orElseThrow(()-> new VenisonNotFoundException("Venison with id: " + id + " does not exist."));
+    public Venison findVenisonById(Long id) {
+        return venisonRepository.findById(id).orElseThrow(() -> new VenisonNotFoundException("Venison with id: " + id + " does not exist."));
     }
 
     public void deleteVenison(Long id) {
@@ -37,18 +37,14 @@ public class VenisonService {
     }
 
 
-    public boolean chekDate(LocalDate date, Long venisonId) throws ValidationException {
-        if (date == null) throw new ValidationException("Date must not be empty!");
-        Venison venison = this.findVenisonById(venisonId);
-        int day = LocalDate.parse(date.toString()).getDayOfYear();
-        int fromDay = LocalDate.parse(venison.getFromDate().toString()).getDayOfYear();
-        int toDay = LocalDate.parse(venison.getToDate().toString()).getDayOfYear();
-        if (day >= fromDay) {
-            if (day >= fromDay && day <= toDay) return true;
-        } else {
-            if (day <= fromDay && day >= toDay) return true;
-        }
-        return false;
+    public LocalDate chekDate(String date, Venison venison) throws ValidationException {
+        LocalDate localDate = LocalDate.parse(date);
+
+        if (venison.getFromDate().isBefore(localDate) && venison.getToDate().isAfter(localDate))
+            return localDate;
+
+        return null;
+
     }
 
 }

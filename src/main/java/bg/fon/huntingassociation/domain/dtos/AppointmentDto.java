@@ -1,5 +1,6 @@
 package bg.fon.huntingassociation.domain.dtos;
 
+import bg.fon.huntingassociation.constants.AppointmentStatus;
 import bg.fon.huntingassociation.domain.Venison;
 
 import java.time.LocalDate;
@@ -10,13 +11,16 @@ public class AppointmentDto {
     private String venisonName;
     private String teamName;
     private String comment;
+    private String status;
 
-    public AppointmentDto(Long id, LocalDate date, String venisonName, String teamName, String comment) {
+    public AppointmentDto(Long id, LocalDate date, String venisonName, String teamName,
+                          String comment, String status) {
         this.id = id;
         this.date = date;
         this.venisonName = venisonName;
         this.teamName = teamName;
         this.comment = comment;
+        this.status = status;
     }
 
     public Long getId() {
@@ -58,4 +62,13 @@ public class AppointmentDto {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
 }

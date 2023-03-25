@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.bind.ValidationException;
 
 @Transactional
 @RestController
@@ -41,7 +40,7 @@ public class AppointmentController {
 
     @PostMapping("/add")
     public ResponseEntity<?> addAppointment(@RequestBody Appointment appointment) {
-        return new ResponseEntity<>(appointmentMapper.entityToDto(appointmentService.addAppointment(appointment)), HttpStatus.CREATED);
+        return new ResponseEntity<>(appointmentMapper.entityToDto(appointmentService.createAppointment(appointment)), HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
@@ -55,21 +54,29 @@ public class AppointmentController {
         return ResponseEntity.ok("Appointment has been successfully removed!");
     }
 
-    @PostMapping("/make/team/{teamId}/venison/{venisonId}")
+    @PostMapping("/make/team/{teamId}/venison/{venisonId}/date/{date}")
     public ResponseEntity<?> makeAppointmentForTeam(@PathVariable("teamId") Long teamId,
-                                                    @PathVariable("venisonId") Long venisonId) {
+                                                    @PathVariable("venisonId") Long venisonId,
+                                                    @PathVariable("date") String date,
+                                                    @RequestParam(defaultValue="") String comment) {
         try {
-            Appointment appointment = appointmentManager.makeAppointmentForTeam(teamId, venisonId);
-            return new ResponseEntity<>(appointment, HttpStatus.OK);
-        } catch (ValidationException e) {
-            return new ResponseEntity<>("DATE IS NOT PROVIDED! " + e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(appointmentManager.makeAppointmentForTeam(teamId, venisonId, date, comment), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/cancel/{id}")
+    public ResponseEntity<?> cancelAppointment(@PathVariable("id") Long id) {
+        try {
+            return new ResponseEntity<>(appointmentMapper.entityToDto(appointmentManager.cancelAppointment(id)),HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/findByTeamId/{teamId}")
-    public ResponseEntity<?> getAppointmentByTeamId(@PathVariable("teamId") Long teamId) {
+    public ResponseEntity<?> getAppointmentsByTeamId(@PathVariable("teamId") Long teamId) {
         try {
             return new ResponseEntity<>(appointmentService.findAppointmentsByTeamId(teamId)
                     .stream()

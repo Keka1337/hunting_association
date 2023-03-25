@@ -20,7 +20,7 @@ public class TeamService {
     }
 
     public Team createTeam(Team team) throws ValidationException {
-        if (teamRepository.findTeamByName(team.getName()) == null)
+        if (teamRepository.findByName(team.getName()) == null)
             return teamRepository.save(team);
         else
             throw new ValidationException("Team with name " + team.getName() + " already exist!");
@@ -31,8 +31,8 @@ public class TeamService {
     }
 
     public Team findTeamById(Long id) {
-        return teamRepository.findTeamById(id).orElseThrow(
-                () -> new TeamNotFoundException("Team with id + " + id + " is not found."));
+        return teamRepository.findById(id).orElseThrow(
+                () -> new TeamNotFoundException("Team with id  " + id + " is not found."));
     }
 
     public void deleteTeam(Long id) {
@@ -40,16 +40,15 @@ public class TeamService {
     }
 
     public Team updateTeam(Team team) {
-        Team response = teamRepository.findTeamById(team.getId()).get();
+        Team response = teamRepository.findById(team.getId()).get();
         response.setName(team.getName());
         response.setMembers(team.getMembers());
         return teamRepository.save(team);
     }
 
     public Team updateNumberOfMembers(Long teamId, Integer members) {
-        Team team = teamRepository.findTeamById(teamId).get();
-        if (members != null)
-            team.setMembers(members);
+        Team team = teamRepository.findById(teamId).get();
+        team.setMembers(members);
         return teamRepository.save(team);
     }
 }

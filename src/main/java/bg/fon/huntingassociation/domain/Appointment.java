@@ -1,5 +1,7 @@
 package bg.fon.huntingassociation.domain;
 
+import bg.fon.huntingassociation.constants.AppointmentStatus;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -19,15 +21,25 @@ public class Appointment {
     private Team team;
 
     private String comment;
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus status;
 
     public Appointment() {
     }
 
-    public Appointment(LocalDate date, Venison venison, Team team, String comment) {
+    public Appointment(Venison venison, Team team, LocalDate date, String comment) {
         this.date = date;
         this.venison = venison;
         this.team = team;
         this.comment = comment;
+    }
+
+    public Appointment(Venison venison, Team team, LocalDate date, String comment, AppointmentStatus status) {
+        this.date = date;
+        this.venison = venison;
+        this.team = team;
+        this.comment = comment;
+        this.status = status;
     }
 
     public LocalDate getDate() {
@@ -70,6 +82,14 @@ public class Appointment {
         this.comment = comment;
     }
 
+    public AppointmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AppointmentStatus status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Appointment{" +
@@ -77,7 +97,8 @@ public class Appointment {
                 ", date=" + date +
                 ", venison=" + venison +
                 ", team=" + team +
-                ". comment=" + comment +
+                ", comment='" + comment + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }
