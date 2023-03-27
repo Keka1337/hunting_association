@@ -41,6 +41,6 @@ public class HunterService {
     }
 
     public void deleteHunter(Long hunterId) {
-        hunterRepository.deleteHunterById(hunterId);
+        hunterRepository.deleteById(hunterId);
     }
 }
