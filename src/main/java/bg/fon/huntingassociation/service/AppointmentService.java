@@ -1,6 +1,7 @@
 package bg.fon.huntingassociation.service;
 
 import bg.fon.huntingassociation.domain.Appointment;
+import bg.fon.huntingassociation.domain.dtos.AppointmentDto;
 import bg.fon.huntingassociation.exception.AppointmentNotFoundException;
 import bg.fon.huntingassociation.mappers.AppointmentMapper;
 import bg.fon.huntingassociation.repository.AppointmentRepository;
@@ -53,4 +54,5 @@ public class AppointmentService {
             return false;
         return true;
     }
+
 }

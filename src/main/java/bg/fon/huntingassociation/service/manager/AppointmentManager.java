@@ -53,11 +53,18 @@ public class AppointmentManager {
         return appointmentMapper.entityToDto(appointment);
     }
 
-    public Appointment cancelAppointment(Long id) {
-        Appointment appointment = appointmentService.findAppointmentById(id);
+    public Appointment cancelAppointment(AppointmentDto appointmentDto) {
+        Appointment appointment = appointmentService.findAppointmentById(appointmentDto.getId());
         if(AppointmentStatus.CANCELLED.equals(appointment.getStatus()))
             return appointment;
         appointment.setStatus(AppointmentStatus.CANCELLED);
+        return appointmentService.updateAppointment(appointment);
+    }
+
+    public Appointment updateAppointmentDto(AppointmentDto appointmentDto) {
+        Appointment appointment = appointmentMapper.dtoToEntity(appointmentDto);
+        appointment.setVenison(venisonService.findByName(appointmentDto.getVenisonName()));
+        appointment.setTeam(teamService.findByName(appointmentDto.getTeamName()));
         return appointmentService.updateAppointment(appointment);
     }
 }

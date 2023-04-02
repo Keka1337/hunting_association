@@ -10,4 +10,6 @@ public interface VenisonMapper {
     VenisonMapper mapper = Mappers.getMapper(VenisonMapper.class);
 
     VenisonDto entityToDto(Venison venison);
+
+    Venison dtoToEntity(VenisonDto venisonDto);
 }

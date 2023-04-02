@@ -1,6 +1,7 @@
 package bg.fon.huntingassociation.controller;
 
 import bg.fon.huntingassociation.domain.Appointment;
+import bg.fon.huntingassociation.domain.dtos.AppointmentDto;
 import bg.fon.huntingassociation.mappers.AppointmentMapper;
 import bg.fon.huntingassociation.service.AppointmentService;
 import bg.fon.huntingassociation.service.manager.AppointmentManager;
@@ -35,30 +36,46 @@ public class AppointmentController {
 
     @GetMapping("/find/{id}")
     public ResponseEntity<?> getAppointmentById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(appointmentMapper.entityToDto(appointmentService.findAppointmentById(id)), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(appointmentMapper.entityToDto(appointmentService.findAppointmentById(id)), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/add")
     public ResponseEntity<?> addAppointment(@RequestBody Appointment appointment) {
-        return new ResponseEntity<>(appointmentMapper.entityToDto(appointmentService.createAppointment(appointment)), HttpStatus.CREATED);
+        try {
+            return new ResponseEntity<>(appointmentMapper.entityToDto(appointmentService.createAppointment(appointment)), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<?> updateAppointment(@RequestBody Appointment appointment) {
-        return new ResponseEntity<>(appointmentMapper.entityToDto(appointmentService.updateAppointment(appointment)), HttpStatus.OK);
+    @PatchMapping("/update")
+    public ResponseEntity<?> updateAppointment(@RequestBody AppointmentDto appointmentDto) {
+        try {
+            return new ResponseEntity<>(appointmentMapper.entityToDto(appointmentManager.updateAppointmentDto(appointmentDto)), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteAppointment(@PathVariable("id") Long id) {
-        this.appointmentService.deleteAppoitment(id);
-        return ResponseEntity.ok("Appointment has been successfully removed!");
+        try {
+            this.appointmentService.deleteAppoitment(id);
+            return ResponseEntity.ok("Appointment has been successfully removed!");
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/make/team/{teamId}/venison/{venisonId}/date/{date}")
     public ResponseEntity<?> makeAppointmentForTeam(@PathVariable("teamId") Long teamId,
                                                     @PathVariable("venisonId") Long venisonId,
                                                     @PathVariable("date") String date,
-                                                    @RequestParam(defaultValue="") String comment) {
+                                                    @RequestParam(defaultValue = "") String comment) {
         try {
             return new ResponseEntity<>(appointmentManager.makeAppointmentForTeam(teamId, venisonId, date, comment), HttpStatus.OK);
         } catch (Exception e) {
@@ -66,10 +83,10 @@ public class AppointmentController {
         }
     }
 
-    @PostMapping("/cancel/{id}")
-    public ResponseEntity<?> cancelAppointment(@PathVariable("id") Long id) {
+    @PatchMapping("/cancel")
+    public ResponseEntity<?> cancelAppointment(@RequestBody AppointmentDto appointmentDto) {
         try {
-            return new ResponseEntity<>(appointmentMapper.entityToDto(appointmentManager.cancelAppointment(id)),HttpStatus.OK);
+            return new ResponseEntity<>(appointmentMapper.entityToDto(appointmentManager.cancelAppointment(appointmentDto)), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -80,8 +97,7 @@ public class AppointmentController {
         try {
             return new ResponseEntity<>(appointmentService.findAppointmentsByTeamId(teamId)
                     .stream()
-                    .map(appointment -> appointmentMapper.entityToDto(appointment)),
-                    HttpStatus.OK);
+                    .map(appointment -> appointmentMapper.entityToDto(appointment)), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

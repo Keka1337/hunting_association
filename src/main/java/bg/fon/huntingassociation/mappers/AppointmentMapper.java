@@ -13,5 +13,7 @@ public interface AppointmentMapper {
     @Mapping(source = "team.name", target = "teamName")
     @Mapping(source = "venison.name", target = "venisonName")
     AppointmentDto entityToDto(Appointment appointment);
-
+    @Mapping(source = "teamName", target = "team.name")
+    @Mapping(source = "venisonName", target = "venison.name")
+    Appointment dtoToEntity(AppointmentDto appointmentDto);
 }

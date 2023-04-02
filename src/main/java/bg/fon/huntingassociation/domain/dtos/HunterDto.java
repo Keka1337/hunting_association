@@ -8,9 +8,11 @@ public class HunterDto {
     private TeamDto team;
     private String phone;
     private String licenceNum;
-    private AddressDto address;
+    private String street;
+    private String city;
+    private String postalCode;
 
-    public HunterDto(Long id, String name, String lastname, String jmbg, TeamDto team, String phone, String licenceNum, AddressDto address) {
+    public HunterDto(Long id, String name, String lastname, String jmbg, TeamDto team, String phone, String licenceNum, String street, String city, String postalCode) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
@@ -18,7 +20,9 @@ public class HunterDto {
         this.team = team;
         this.phone = phone;
         this.licenceNum = licenceNum;
-        this.address = address;
+        this.street = street;
+        this.city = city;
+        this.postalCode = postalCode;
     }
 
     public Long getId() {
@@ -77,11 +81,27 @@ public class HunterDto {
         this.licenceNum = licenceNum;
     }
 
-    public AddressDto getAddress() {
-        return address;
+    public String getStreet() {
+        return street;
     }
 
-    public void setAddress(AddressDto address) {
-        this.address = address;
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 }

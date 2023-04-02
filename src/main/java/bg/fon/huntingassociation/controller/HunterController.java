@@ -1,6 +1,7 @@
 package bg.fon.huntingassociation.controller;
 
 import bg.fon.huntingassociation.domain.Hunter;
+import bg.fon.huntingassociation.domain.dtos.HunterDto;
 import bg.fon.huntingassociation.mappers.HunterMapper;
 import bg.fon.huntingassociation.service.HunterService;
 import org.slf4j.Logger;
@@ -35,27 +36,52 @@ public class HunterController {
 
     @GetMapping("/find/{id}")
     public ResponseEntity<?> getHunterById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(hunterMapper.entityToDto(hunterService.findHunterById(id)), HttpStatus.OK);
-    }
-
-    @PostMapping("/add")
-    public ResponseEntity<?> addHunter(@RequestBody Hunter hunter) {
         try {
-            return new ResponseEntity<>(hunterMapper.entityToDto(hunterService.addHunter(hunter)), HttpStatus.CREATED);
-        } catch (ValidationException e) {
-            LOG.error("Following error occured: " + e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(hunterMapper.entityToDto(hunterService.findHunterById(id)), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<?> updateHunter(@RequestBody Hunter hunter) {
-        return new ResponseEntity<>(hunterMapper.entityToDto(hunterService.updateHunter(hunter)), HttpStatus.OK);
+    @GetMapping("/find-all-for-team/{teamId}")
+    public ResponseEntity<?> getHunterByTeamId(@PathVariable("teamId") Long teamId) {
+        try {
+            return new ResponseEntity<>(hunterService.findHunterByTeamId(teamId).stream().map(hunter -> hunterMapper.entityToDto(hunter)), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addHunterDto(@RequestBody HunterDto hunterDto) {
+        try {
+            return new ResponseEntity<>(hunterMapper.entityToDto(hunterService.addHunterDto(hunterDto)), HttpStatus.CREATED);
+        } catch (ValidationException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+    }
+
+    @PatchMapping("/update")
+    public ResponseEntity<?> updateHunter(@RequestBody HunterDto hunter) {
+        try {
+            return new ResponseEntity<>(hunterMapper.entityToDto(hunterService.updateHunterDto(hunter)), HttpStatus.OK);
+        } catch (ValidationException e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteHunter(@PathVariable("id") Long id) {
-        hunterService.deleteHunter(id);
-        return ResponseEntity.ok("Hunter has been successfully removed!");
+        try {
+            hunterService.deleteHunter(id);
+            return ResponseEntity.ok("Hunter has been successfully removed!");
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

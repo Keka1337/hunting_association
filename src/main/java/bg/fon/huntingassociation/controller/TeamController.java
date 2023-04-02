@@ -1,6 +1,8 @@
 package bg.fon.huntingassociation.controller;
 
 import bg.fon.huntingassociation.domain.Team;
+import bg.fon.huntingassociation.domain.dtos.HunterDto;
+import bg.fon.huntingassociation.domain.dtos.TeamDto;
 import bg.fon.huntingassociation.mappers.TeamMapper;
 import bg.fon.huntingassociation.service.TeamService;
 import bg.fon.huntingassociation.service.manager.TeamManager;
@@ -37,8 +39,12 @@ public class TeamController {
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<?> finTeamById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(teamMapper.entityToDto(teamService.findTeamById(id)), HttpStatus.OK);
+    public ResponseEntity<?> findTeamById(@PathVariable("id") Long id) {
+        try {
+            return new ResponseEntity<>(teamMapper.entityToDto(teamService.findTeamById(id)), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/add")
@@ -46,36 +52,65 @@ public class TeamController {
         try {
             return new ResponseEntity<>(teamMapper.entityToDto(teamService.createTeam(team)), HttpStatus.CREATED);
         } catch (ValidationException e) {
-            LOG.error("Following error occured: " + e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PatchMapping("/update/{id}/{name}")
+    public ResponseEntity<?> updateTeamName(@PathVariable Long id, @PathVariable String name) {
+        try {
+            return new ResponseEntity<>(teamMapper.entityToDto(teamService.updateTeamName(id, name)), HttpStatus.OK);
+        } catch (ValidationException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteTeam(@PathVariable("id") Long id) {
-        this.teamService.deleteTeam(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            this.teamService.deleteTeam(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    @PatchMapping("/update-number-of-members/team/{teamId}/members/{members}")
+    @PatchMapping("/update-number-of-members/{teamId}/members/{members}")
     public ResponseEntity<?> updateNumberOfMembers(@PathVariable("teamId") Long teamId,
                                                    @PathVariable("members") Integer members) {
-        return new ResponseEntity(teamMapper.entityToDto(teamService.updateNumberOfMembers(teamId, members)), HttpStatus.OK);
+        try {
+            return new ResponseEntity(teamMapper.entityToDto(teamService.updateNumberOfMembers(teamId, members)), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
     @PatchMapping("/remove/hunter/{hunterId}/team/{teamId}")
     public ResponseEntity<?> removeHunterFromTeam(@PathVariable("teamId") Long teamId,
                                                   @PathVariable("hunterId") Long hunterId) {
-        this.teamManager.removeHunterFromTeam(teamId, hunterId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            this.teamManager.removeHunterFromTeam(teamId, hunterId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     //sets new team for hunter and updates number of members (in new and in old team)
     @PatchMapping("/add/hunter/{hunterId}/team/{teamId}")
     public ResponseEntity<?> addHunterToTeam(@PathVariable("teamId") Long teamId,
                                              @PathVariable("hunterId") Long hunterId) {
-        this.teamManager.addHunterToTeam(teamId, hunterId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            this.teamManager.addHunterToTeam(teamId, hunterId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 }

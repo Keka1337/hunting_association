@@ -48,7 +48,19 @@ public class TeamService {
 
     public Team updateNumberOfMembers(Long teamId, Integer members) {
         Team team = teamRepository.findById(teamId).get();
-        team.setMembers(members);
+        team.setMembers(team.getMembers()+members);
         return teamRepository.save(team);
+    }
+
+    public Team updateTeamName(Long id, String name) throws ValidationException {
+        Team team = teamRepository.findById(id).get();
+        if(teamRepository.findByName(name)!=null)
+            throw new ValidationException("Team with name " + name + " already exist!");
+        team.setName(name);
+        return teamRepository.save(team);
+    }
+
+    public Team findByName(String name) {
+        return this.teamRepository.findByName(name);
     }
 }
