@@ -101,16 +101,4 @@ public class TeamController {
         }
     }
 
-    //sets new team for hunter and updates number of members (in new and in old team)
-    @PatchMapping("/add/hunter/{hunterId}/team/{teamId}")
-    public ResponseEntity<?> addHunterToTeam(@PathVariable("teamId") Long teamId,
-                                             @PathVariable("hunterId") Long hunterId) {
-        try {
-            this.teamManager.addHunterToTeam(teamId, hunterId);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
 }

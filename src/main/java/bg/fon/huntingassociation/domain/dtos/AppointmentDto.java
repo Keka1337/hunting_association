@@ -8,17 +8,16 @@ import java.time.LocalDate;
 public class AppointmentDto {
     private Long id;
     private LocalDate date;
-    private String venisonName;
-    private String teamName;
+    private VenisonDto venison;
+    private TeamDto team;
     private String comment;
     private String status;
 
-    public AppointmentDto(Long id, LocalDate date, String venisonName, String teamName,
-                          String comment, String status) {
+    public AppointmentDto(Long id, LocalDate date, VenisonDto venison, TeamDto team, String comment, String status) {
         this.id = id;
         this.date = date;
-        this.venisonName = venisonName;
-        this.teamName = teamName;
+        this.venison = venison;
+        this.team = team;
         this.comment = comment;
         this.status = status;
     }
@@ -39,20 +38,20 @@ public class AppointmentDto {
         this.date = date;
     }
 
-    public String getVenisonName() {
-        return venisonName;
+    public VenisonDto getVenison() {
+        return venison;
     }
 
-    public void setVenisonName(String venisonName) {
-        this.venisonName = venisonName;
+    public void setVenison(VenisonDto venison) {
+        this.venison = venison;
     }
 
-    public String getTeamName() {
-        return teamName;
+    public TeamDto getTeam() {
+        return team;
     }
 
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
+    public void setTeam(TeamDto team) {
+        this.team = team;
     }
 
     public String getComment() {
@@ -70,5 +69,4 @@ public class AppointmentDto {
     public void setStatus(String status) {
         this.status = status;
     }
-
 }

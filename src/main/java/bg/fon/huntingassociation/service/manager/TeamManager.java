@@ -34,9 +34,9 @@ public class TeamManager {
         }
     }
 
-    public void addHunterToTeam(Long teamId, Long hunterId) {
+    public void addHunterToTeam(String teamName, Long hunterId) {
         Hunter hunter = hunterService.findHunterById(hunterId);
-        Team newTeam = teamService.findTeamById(teamId);
+        Team newTeam = teamService.findByName(teamName);
 
         if(hunter.getTeam() != null){
             Team oldTeam = hunter.getTeam();

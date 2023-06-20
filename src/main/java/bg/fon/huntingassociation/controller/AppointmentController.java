@@ -71,13 +71,13 @@ public class AppointmentController {
         }
     }
 
-    @PostMapping("/make/team/{teamId}/venison/{venisonId}/date/{date}")
-    public ResponseEntity<?> makeAppointmentForTeam(@PathVariable("teamId") Long teamId,
-                                                    @PathVariable("venisonId") Long venisonId,
+    @PostMapping("/make/team/{teamName}/venison/{venisonName}/date/{date}")
+    public ResponseEntity<?> makeAppointmentForTeam(@PathVariable("teamName") String teamName,
+                                                    @PathVariable("venisonName") String venisonName,
                                                     @PathVariable("date") String date,
                                                     @RequestParam(defaultValue = "") String comment) {
         try {
-            return new ResponseEntity<>(appointmentManager.makeAppointmentForTeam(teamId, venisonId, date, comment), HttpStatus.OK);
+            return new ResponseEntity<>(appointmentManager.makeAppointmentForTeam(teamName, venisonName, date, comment), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

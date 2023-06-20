@@ -1,5 +1,6 @@
 package bg.fon.huntingassociation.service;
 
+import bg.fon.huntingassociation.constants.AppointmentStatus;
 import bg.fon.huntingassociation.domain.Appointment;
 import bg.fon.huntingassociation.domain.dtos.AppointmentDto;
 import bg.fon.huntingassociation.exception.AppointmentNotFoundException;
@@ -24,6 +25,7 @@ public class AppointmentService {
     }
 
     public Appointment createAppointment(Appointment appointment) {
+        appointment.setStatus(AppointmentStatus.APPROVED);
         return appointmentRepository.save(appointment);
     }
 

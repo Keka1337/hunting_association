@@ -4,6 +4,7 @@ import bg.fon.huntingassociation.domain.Hunter;
 import bg.fon.huntingassociation.domain.dtos.HunterDto;
 import bg.fon.huntingassociation.mappers.HunterMapper;
 import bg.fon.huntingassociation.service.HunterService;
+import bg.fon.huntingassociation.service.manager.TeamManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,12 +21,14 @@ import java.util.List;
 public class HunterController {
 
     private final HunterService hunterService;
+    private final TeamManager teamManager;
     private final HunterMapper hunterMapper;
     Logger LOG = LoggerFactory.getLogger(HunterController.class);
 
-    public HunterController(HunterService hunterService, HunterMapper hunterMapper) {
+    public HunterController(HunterService hunterService, HunterMapper hunterMapper, TeamManager teamManager) {
         this.hunterService = hunterService;
         this.hunterMapper = hunterMapper;
+        this.teamManager = teamManager;
     }
 
     @GetMapping("/all")
@@ -46,7 +49,9 @@ public class HunterController {
     @GetMapping("/find-all-for-team/{teamId}")
     public ResponseEntity<?> getHunterByTeamId(@PathVariable("teamId") Long teamId) {
         try {
-            return new ResponseEntity<>(hunterService.findHunterByTeamId(teamId).stream().map(hunter -> hunterMapper.entityToDto(hunter)), HttpStatus.OK);
+            List<Hunter> hunters = hunterService.findHunterByTeamId(teamId);
+            return new ResponseEntity<>(hunters.stream().map(hunter->hunterMapper.entityToDto(hunter))
+                    , HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -56,6 +61,18 @@ public class HunterController {
     public ResponseEntity<?> addHunterDto(@RequestBody HunterDto hunterDto) {
         try {
             return new ResponseEntity<>(hunterMapper.entityToDto(hunterService.addHunterDto(hunterDto)), HttpStatus.CREATED);
+        } catch (ValidationException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+    }
+
+    @PatchMapping("/edit")
+    public ResponseEntity<?> editHunterDto(@RequestBody HunterDto hunterDto) {
+        try {
+            return new ResponseEntity<>(hunterMapper.entityToDto(hunterService.editHunter(hunterDto)), HttpStatus.CREATED);
         } catch (ValidationException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
@@ -82,6 +99,18 @@ public class HunterController {
             return ResponseEntity.ok("Hunter has been successfully removed!");
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //sets new team for hunter and updates number of members (in new and in old team)
+    @PatchMapping("/add/{hunterId}/team/{teamId}")
+    public ResponseEntity<?> addHunterToTeam(@PathVariable("teamName") String teamName,
+                                             @PathVariable("hunterId") Long hunterId) {
+        try {
+            this.teamManager.addHunterToTeam(teamName, hunterId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

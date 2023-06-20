@@ -36,9 +36,9 @@ public class AppointmentManager {
         this.appointmentMapper = appointmentMapper;
     }
 
-    public AppointmentDto makeAppointmentForTeam(Long teamId, Long venisonId, String date, String comment) throws ValidationException {
-        Team team = teamService.findTeamById(teamId);
-        Venison venison = venisonService.findVenisonById(venisonId);
+    public AppointmentDto makeAppointmentForTeam(String teamName, String venisonName, String date, String comment) throws ValidationException {
+        Team team = teamService.findByName(teamName);
+        Venison venison = venisonService.findByName(venisonName);
 
         LocalDate convertedDate = venisonService.chekDate(date, venison);
         if (convertedDate == null)
@@ -63,8 +63,8 @@ public class AppointmentManager {
 
     public Appointment updateAppointmentDto(AppointmentDto appointmentDto) {
         Appointment appointment = appointmentMapper.dtoToEntity(appointmentDto);
-        appointment.setVenison(venisonService.findByName(appointmentDto.getVenisonName()));
-        appointment.setTeam(teamService.findByName(appointmentDto.getTeamName()));
+//        appointment.setVenison(venisonService.findByName(appointmentDto.getVenison()).getName());
+        appointment.setTeam(teamService.findByName(appointmentDto.getTeam().getName()));
         return appointmentService.updateAppointment(appointment);
     }
 }

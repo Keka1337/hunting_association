@@ -44,7 +44,7 @@ public class HunterService {
         return hunterRepository.save(hunter);
     }
 
-    public Hunter findHunterById(Long id) throws HunterNotFoundException {
+    public Hunter findHunterById(Long id){
         return hunterRepository.findById(id).get();
     }
 
@@ -78,9 +78,21 @@ public class HunterService {
         Hunter hunter = hunterMapper.dtoToEntity(hunterDto);
         if(hunterRepository.findByJmbg(hunter.getJmbg()) == null
                 && hunterRepository.findByLicenceNum(hunter.getLicenceNum()) == null){
+            teamService.updateNumberOfMembers(hunter.getTeam().getId(), +1);
             return hunterRepository.save(hunter);
         }
         else
             throw new ValidationException("Hunter with provided jmbg or licence number already exists!");
+    }
+
+    public Hunter editHunter(HunterDto hunterDto) throws ValidationException {
+        Hunter hunter = hunterMapper.dtoToEntity(hunterDto);
+        if(hunterRepository.findByJmbg(hunter.getJmbg()) == null
+                && hunterRepository.findByLicenceNum(hunter.getLicenceNum()) == null){
+            throw new ValidationException("Hunter with provided jmbg or licence number does not exists!");
+        }
+        else{
+            return hunterRepository.save(hunter);
+        }
     }
 }

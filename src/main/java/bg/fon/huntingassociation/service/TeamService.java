@@ -36,7 +36,9 @@ public class TeamService {
     }
 
     public void deleteTeam(Long id) {
-        teamRepository.deleteTeamById(id);
+        Team team = teamRepository.findById(id).get();
+        team.getHunters().stream().forEach(t->t.setTeam(null));
+        teamRepository.deleteById(id);
     }
 
     public Team updateTeam(Team team) {

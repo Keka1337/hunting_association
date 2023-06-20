@@ -10,10 +10,8 @@ import org.mapstruct.factory.Mappers;
 public interface AppointmentMapper {
     AppointmentMapper mapper = Mappers.getMapper(AppointmentMapper.class);
 
-    @Mapping(source = "team.name", target = "teamName")
-    @Mapping(source = "venison.name", target = "venisonName")
+
     AppointmentDto entityToDto(Appointment appointment);
-    @Mapping(source = "teamName", target = "team.name")
-    @Mapping(source = "venisonName", target = "venison.name")
+
     Appointment dtoToEntity(AppointmentDto appointmentDto);
 }

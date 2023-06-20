@@ -40,7 +40,10 @@ public class VenisonService {
         return venisonRepository.findById(id).orElseThrow(() -> new VenisonNotFoundException("Venison with id: " + id + " does not exist."));
     }
 
-    public void deleteVenison(Long id) {
+    public void deleteVenison(Long id) throws ValidationException {
+        Venison venison = this.venisonRepository.findById(id).get();
+        if(!venison.getAppoitments().isEmpty())
+            throw  new ValidationException("There are appointments for this venison.");
         this.venisonRepository.deleteVenisonById(id);
     }
 
