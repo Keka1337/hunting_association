@@ -26,23 +26,6 @@ public class Hunter implements Serializable {
 
     }
 
-    public Hunter(String name, String lastname, String jmbg, String phone, String licenceNum) {
-        this.name = name;
-        this.lastname = lastname;
-        this.jmbg = jmbg;
-        this.phone = phone;
-        this.licenceNum = licenceNum;
-    }
-
-    public Hunter(String name, String lastname, String jmbg, String phone, String licenceNum, Address address) {
-        this.name = name;
-        this.lastname = lastname;
-        this.jmbg = jmbg;
-        this.phone = phone;
-        this.licenceNum = licenceNum;
-        this.address = address;
-    }
-
     public Hunter(String name, String lastname, String jmbg, String phone, Address address, String licenceNum, Team team) {
         this.name = name;
         this.lastname = lastname;

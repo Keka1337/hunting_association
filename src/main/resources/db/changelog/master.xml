@@ -3,7 +3,13 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <include file="add_comment_into_appointment.xml" relativeToChangelogFile="true"/>
-    <include file="add_status_into_appointment.xml" relativeToChangelogFile="true"/>
+    <include file="create_table_appointment.xml" relativeToChangelogFile="true"/>
+    <include file="create_table_hunter.xml" relativeToChangelogFile="true"/>
+    <include file="create_table_venison.xml" relativeToChangelogFile="true"/>
+    <include file="create_table_team.xml" relativeToChangelogFile="true"/>
+    <include file="add_foreign_keys.xml" relativeToChangelogFile="true"/>
+    <include file="create_table_user.xml" relativeToChangelogFile="true"/>
+    <include file="create_table_role.xml" relativeToChangelogFile="true"/>
+    <include file="create_table_user_role.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

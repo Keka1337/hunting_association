@@ -3,15 +3,22 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <changeSet id="1" author="keka">
+    <changeSet id="create_table_team" author="keka">
         <preConditions onFail="MARK_RAN">
             <not>
-                <columnExists tableName="appointment" columnName="status"/>
+                <tableExists tableName="team"/>
             </not>
         </preConditions>
-        <addColumn tableName="appointment">
-            <column name="status" type="varchar(255)"/>
-        </addColumn>
+        <createTable tableName="team">
+            <column name="team_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="members" type="INT" defaultValueNumeric="0">
+            </column>
+        </createTable>
     </changeSet>
 
 </databaseChangeLog>

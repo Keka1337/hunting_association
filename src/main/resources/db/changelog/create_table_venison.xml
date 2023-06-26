@@ -1,0 +1,28 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="create_table_venison" author="keka">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="venison"/>
+            </not>
+        </preConditions>
+        <createTable tableName="venison">
+            <column name="venison_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scientific_name" type="varchar(255)">
+            </column>
+            <column name="fromDate" type="DATE">
+            </column>
+            <column name="toDate" type="DATE">
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

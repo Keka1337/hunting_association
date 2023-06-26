@@ -35,14 +35,6 @@ public class Venison {
         this.maxNum = maxNum;
     }
 
-    public Venison(String name, String gender, LocalDate fromDate, LocalDate toDate, int maxNum) {
-        this.name = name;
-        this.gender = gender;
-        this.fromDate = fromDate;
-        this.toDate = toDate;
-        this.maxNum = maxNum;
-    }
-
     public Long getId() {
         return id;
     }

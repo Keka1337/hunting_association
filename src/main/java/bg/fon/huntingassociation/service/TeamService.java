@@ -1,7 +1,6 @@
 package bg.fon.huntingassociation.service;
 
 import bg.fon.huntingassociation.domain.Team;
-import bg.fon.huntingassociation.exception.TeamNotFoundException;
 import bg.fon.huntingassociation.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,21 +30,13 @@ public class TeamService {
     }
 
     public Team findTeamById(Long id) {
-        return teamRepository.findById(id).orElseThrow(
-                () -> new TeamNotFoundException("Team with id  " + id + " is not found."));
+        return teamRepository.findById(id).get();
     }
 
     public void deleteTeam(Long id) {
         Team team = teamRepository.findById(id).get();
         team.getHunters().stream().forEach(t->t.setTeam(null));
         teamRepository.deleteById(id);
-    }
-
-    public Team updateTeam(Team team) {
-        Team response = teamRepository.findById(team.getId()).get();
-        response.setName(team.getName());
-        response.setMembers(team.getMembers());
-        return teamRepository.save(team);
     }
 
     public Team updateNumberOfMembers(Long teamId, Integer members) {
@@ -62,7 +53,4 @@ public class TeamService {
         return teamRepository.save(team);
     }
 
-    public Team findByName(String name) {
-        return this.teamRepository.findByName(name);
-    }
 }

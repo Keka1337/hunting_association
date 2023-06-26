@@ -7,23 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("api/v1/user")
 public class UserController {
 
     private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-    @GetMapping("/find/{email}/{password}")
-    public ResponseEntity<?> findUser(@PathVariable("email") String email,
-            @PathVariable("password") String password) {
-        try {
-            return new ResponseEntity<>(userService.findUser(email,password), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @PostMapping("/login")

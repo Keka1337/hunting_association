@@ -11,13 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.bind.ValidationException;
-import java.time.LocalDate;
 
 
 @Transactional
 @RestController
-@RequestMapping("/venison")
+@RequestMapping("api/v1/venison")
 public class VenisonController {
 
     private final VenisonService venisonService;
@@ -47,20 +45,14 @@ public class VenisonController {
     @PostMapping("/add")
     public ResponseEntity<?> addVenison(@RequestBody VenisonDto venisonDto) {
         try{
-            return new ResponseEntity<>(venisonMapper.entityToDto(venisonService.addVenisonDto(venisonDto)), HttpStatus.CREATED);
+            Venison venison = venisonMapper.dtoToEntity(venisonDto);
+            return new ResponseEntity<>(venisonMapper.entityToDto(venisonService.addVenisonDto(venison)), HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
     }
-    @PatchMapping("/update")
-    public ResponseEntity<?> updateVenison(@RequestBody Venison venison) {
-        try {
-            return new ResponseEntity<>(venisonMapper.entityToDto(venisonService.updateVenison(venison)), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
-        }
-    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteVenison(@PathVariable("id") Long id) {
         try {

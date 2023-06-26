@@ -10,12 +10,9 @@ import java.util.List;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
-    void deleteAppointmentById(Long id);
-
-    List<Appointment> findALlByTeamId(Long teamId);
-
     @Query("SELECT a FROM Appointment a WHERE a.team.id = :teamId AND a.venison.id = :venisonId AND a.date = :date " +
             "AND a.status = bg.fon.huntingassociation.constants.AppointmentStatus.APPROVED")
     Appointment checkIfAppointmentExists(@Param("teamId") Long teamId, @Param("venisonId") Long venisonId,
                                          @Param("date") LocalDate date);
+    Long countByTeamId(@Param("teamId") Long teamId);
 }

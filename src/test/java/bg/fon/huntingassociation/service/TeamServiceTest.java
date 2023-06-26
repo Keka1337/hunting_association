@@ -1,19 +1,11 @@
 package bg.fon.huntingassociation.service;
 
 import bg.fon.huntingassociation.domain.Team;
-import bg.fon.huntingassociation.exception.TeamNotFoundException;
 import bg.fon.huntingassociation.repository.TeamRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.xml.bind.ValidationException;
-
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 
 @SpringBootTest

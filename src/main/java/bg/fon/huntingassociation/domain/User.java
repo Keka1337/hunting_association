@@ -10,18 +10,16 @@ public class User {
     private Long id;
     private String name;
     private String lastname;
-    private String JMBG;
     private String email;
     private String password;
 
     public User() {
     }
 
-    public User(Long id, String name, String lastname, String JMBG, String email, String password) {
+    public User(Long id, String name, String lastname, String email, String password) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
-        this.JMBG = JMBG;
         this.email = email;
         this.password = password;
     }
@@ -66,13 +64,7 @@ public class User {
         this.password = password;
     }
 
-    public String getJMBG() {
-        return JMBG;
-    }
 
-    public void setJMBG(String JMBG) {
-        this.JMBG = JMBG;
-    }
 
     @Override
     public String toString() {
@@ -80,7 +72,6 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", lastname='" + lastname + '\'' +
-                ", JMBG='" + JMBG + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';

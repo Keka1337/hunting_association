@@ -1,13 +1,8 @@
 package bg.fon.huntingassociation.controller;
 
 import bg.fon.huntingassociation.domain.Team;
-import bg.fon.huntingassociation.domain.dtos.HunterDto;
-import bg.fon.huntingassociation.domain.dtos.TeamDto;
 import bg.fon.huntingassociation.mappers.TeamMapper;
 import bg.fon.huntingassociation.service.TeamService;
-import bg.fon.huntingassociation.service.manager.TeamManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,17 +13,14 @@ import java.util.List;
 
 @Transactional
 @RestController
-@RequestMapping("/team")
+@RequestMapping("api/v1/team")
 public class TeamController {
 
-    private final Logger LOG = LoggerFactory.getLogger(TeamController.class);
     private final TeamService teamService;
-    private final TeamManager teamManager;
     private final TeamMapper teamMapper;
 
-    public TeamController(TeamService teamService, TeamManager teamManager, TeamMapper teamMapper) {
+    public TeamController(TeamService teamService,  TeamMapper teamMapper) {
         this.teamService = teamService;
-        this.teamManager = teamManager;
         this.teamMapper = teamMapper;
     }
 
@@ -73,28 +65,6 @@ public class TeamController {
     public ResponseEntity<?> deleteTeam(@PathVariable("id") Long id) {
         try {
             this.teamService.deleteTeam(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PatchMapping("/update-number-of-members/{teamId}/members/{members}")
-    public ResponseEntity<?> updateNumberOfMembers(@PathVariable("teamId") Long teamId,
-                                                   @PathVariable("members") Integer members) {
-        try {
-            return new ResponseEntity(teamMapper.entityToDto(teamService.updateNumberOfMembers(teamId, members)), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-
-    @PatchMapping("/remove/hunter/{hunterId}/team/{teamId}")
-    public ResponseEntity<?> removeHunterFromTeam(@PathVariable("teamId") Long teamId,
-                                                  @PathVariable("hunterId") Long hunterId) {
-        try {
-            this.teamManager.removeHunterFromTeam(teamId, hunterId);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

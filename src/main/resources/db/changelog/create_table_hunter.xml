@@ -1,0 +1,41 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="create_table_hunter" author="keka">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="hunter"/>
+            </not>
+        </preConditions>
+        <createTable tableName="hunter">
+            <column name="hunter_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastname" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="jmbg" type="varchar(25)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="licence_number" type="varchar(25)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="varchar(25)">
+            </column>
+            <column name="street" type="varchar(255)">
+            </column>
+            <column name="city" type="varchar(255)">
+            </column>
+            <column name="postal_code" type="varchar(25)">
+            </column>
+            <column name="team_id" type="BIGINT">
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

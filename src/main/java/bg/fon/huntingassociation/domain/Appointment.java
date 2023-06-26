@@ -27,13 +27,6 @@ public class Appointment {
     public Appointment() {
     }
 
-    public Appointment(Venison venison, Team team, LocalDate date, String comment) {
-        this.date = date;
-        this.venison = venison;
-        this.team = team;
-        this.comment = comment;
-    }
-
     public Appointment(Venison venison, Team team, LocalDate date, String comment, AppointmentStatus status) {
         this.date = date;
         this.venison = venison;

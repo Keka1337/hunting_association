@@ -1,0 +1,28 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="fk_team_hunter_table" author="keka">
+        <addForeignKeyConstraint baseColumnNames="team_id"
+                                 baseTableName="hunter"
+                                 constraintName="fk_team_id_hunter"
+                                 referencedColumnNames="team_id"
+                                 referencedTableName="team"/>
+    </changeSet>
+    <changeSet id="fk_team_appointment_table" author="keka">
+        <addForeignKeyConstraint baseColumnNames="team_id"
+                                 baseTableName="appointment"
+                                 constraintName="fk_team_id_appointment"
+                                 referencedColumnNames="team_id"
+                                 referencedTableName="team"/>
+    </changeSet>
+    <changeSet id="fk_venison_appointment_table" author="keka">
+        <addForeignKeyConstraint baseColumnNames="venison_id"
+                                 baseTableName="appointment"
+                                 constraintName="fk_venison_id_appointment"
+                                 referencedColumnNames="venison_id"
+                                 referencedTableName="venison"/>
+    </changeSet>
+
+</databaseChangeLog>

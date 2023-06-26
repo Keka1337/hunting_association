@@ -47,6 +47,6 @@ public class Address implements Serializable {
 
     @Override
     public String toString() {
-        return "Address{" + ", street='" + street + '\'' + ", place='" + city + '\'' + ", houseNumber='" + postalCode + '\'' + '}';
+        return "Address{" + ", street='" + street + '\'' + ", city='" + city + '\'' + ", postalCode='" + postalCode + '\'' + '}';
     }
 }
