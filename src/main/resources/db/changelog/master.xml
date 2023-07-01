@@ -7,9 +7,7 @@
     <include file="create_table_hunter.xml" relativeToChangelogFile="true"/>
     <include file="create_table_venison.xml" relativeToChangelogFile="true"/>
     <include file="create_table_team.xml" relativeToChangelogFile="true"/>
-    <include file="add_foreign_keys.xml" relativeToChangelogFile="true"/>
     <include file="create_table_user.xml" relativeToChangelogFile="true"/>
-    <include file="create_table_role.xml" relativeToChangelogFile="true"/>
-    <include file="create_table_user_role.xml" relativeToChangelogFile="true"/>
+    <include file="add_foreign_keys.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

@@ -26,6 +26,17 @@ public class Hunter implements Serializable {
 
     }
 
+    public Hunter(Long id, String name, String lastname, String jmbg, String phone, Address address, String licenceNum, Team team) {
+        this.id = id;
+        this.name = name;
+        this.lastname = lastname;
+        this.jmbg = jmbg;
+        this.phone = phone;
+        this.address = address;
+        this.licenceNum = licenceNum;
+        this.team = team;
+    }
+
     public Hunter(String name, String lastname, String jmbg, String phone, Address address, String licenceNum, Team team) {
         this.name = name;
         this.lastname = lastname;

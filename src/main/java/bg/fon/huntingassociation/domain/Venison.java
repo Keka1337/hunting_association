@@ -18,21 +18,28 @@ public class Venison {
     //starting snd ending date of hunting season
     private LocalDate fromDate;
     private LocalDate toDate;
-    @Column(name = "max_number")
-    private int maxNum;
     @OneToMany(mappedBy = "venison")
     private List<Appointment> appointments;
 
     public Venison() {
     }
 
-    public Venison(String name, String latinName, String gender, LocalDate fromDate, LocalDate toDate, int maxNum) {
+    public Venison(Long id, String name, String latinName, String gender, LocalDate fromDate, LocalDate toDate, List<Appointment> appointments) {
+        this.id = id;
         this.name = name;
         this.latinName = latinName;
         this.gender = gender;
         this.fromDate = fromDate;
         this.toDate = toDate;
-        this.maxNum = maxNum;
+        this.appointments = appointments;
+    }
+
+    public Venison(String name, String latinName, String gender, LocalDate fromDate, LocalDate toDate) {
+        this.name = name;
+        this.latinName = latinName;
+        this.gender = gender;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
     }
 
     public Long getId() {
@@ -51,13 +58,6 @@ public class Venison {
         this.name = name;
     }
 
-    public int getMaxNum() {
-        return maxNum;
-    }
-
-    public void setMaxNum(int maxNum) {
-        this.maxNum = maxNum;
-    }
 
     public List<Appointment> getAppoitments() {
         return appointments;
@@ -108,7 +108,6 @@ public class Venison {
                 ", gender='" + gender + '\'' +
                 ", fromDate=" + fromDate +
                 ", toDate=" + toDate +
-                ", maxNum=" + maxNum +
                 ", appointments=" + appointments +
                 '}';
     }

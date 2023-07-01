@@ -19,13 +19,13 @@
             <column name="lastname" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="username" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
             <column name="password" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="jmbg" type="varchar(13)">
                 <constraints nullable="false"/>
             </column>
         </createTable>

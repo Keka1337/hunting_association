@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.ValidationException;
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -35,7 +34,7 @@ public class VenisonService {
         Venison venison = this.venisonRepository.findById(id).get();
         if(!venison.getAppoitments().isEmpty())
             throw  new ValidationException("There are appointments for this venison.");
-        this.venisonRepository.deleteVenisonById(id);
+        this.venisonRepository.deleteById(id);
     }
 
     public Venison updateVenison(Venison venison) {
@@ -46,7 +45,7 @@ public class VenisonService {
         return this.venisonRepository.findByName(name);
     }
 
-    public Venison addVenisonDto(Venison venison) {
+    public Venison createVenison(Venison venison) {
         return venisonRepository.save(venison);
     }
 }

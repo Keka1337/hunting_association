@@ -66,7 +66,10 @@ public class TeamController {
         try {
             this.teamService.deleteTeam(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
+        }catch (ValidationException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

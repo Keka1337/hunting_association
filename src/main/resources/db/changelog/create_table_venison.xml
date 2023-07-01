@@ -18,6 +18,8 @@
             </column>
             <column name="scientific_name" type="varchar(255)">
             </column>
+            <column name="gender" type="varchar(20)">
+            </column>
             <column name="fromDate" type="DATE">
             </column>
             <column name="toDate" type="DATE">

@@ -46,7 +46,7 @@ public class VenisonController {
     public ResponseEntity<?> addVenison(@RequestBody VenisonDto venisonDto) {
         try{
             Venison venison = venisonMapper.dtoToEntity(venisonDto);
-            return new ResponseEntity<>(venisonMapper.entityToDto(venisonService.addVenisonDto(venison)), HttpStatus.CREATED);
+            return new ResponseEntity<>(venisonMapper.entityToDto(venisonService.createVenison(venison)), HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

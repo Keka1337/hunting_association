@@ -33,9 +33,10 @@ public class TeamService {
         return teamRepository.findById(id).get();
     }
 
-    public void deleteTeam(Long id) {
+    public void deleteTeam(Long id) throws ValidationException {
         Team team = teamRepository.findById(id).get();
-        team.getHunters().stream().forEach(t->t.setTeam(null));
+        if(!team.getHunters().isEmpty())
+            throw new ValidationException("Team is not empty. Deleting is not allowed!");
         teamRepository.deleteById(id);
     }
 

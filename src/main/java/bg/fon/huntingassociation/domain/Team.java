@@ -21,6 +21,14 @@ public class Team {
     public Team() {
     }
 
+    public Team(Long id, String name, List<Hunter> hunters, int members, List<Appointment> appointments) {
+        this.id = id;
+        this.name = name;
+        this.hunters = hunters;
+        this.members = members;
+        this.appointments = appointments;
+    }
+
     public Team(String name, List<Hunter> hunters, int members, List<Appointment> appointments) {
         this.name = name;
         this.hunters = hunters;

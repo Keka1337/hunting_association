@@ -13,6 +13,9 @@ public class AppointmentDto {
     private String comment;
     private String status;
 
+    public AppointmentDto() {
+    }
+
     public AppointmentDto(Long id, LocalDate date, VenisonDto venison, TeamDto team, String comment, String status) {
         this.id = id;
         this.date = date;

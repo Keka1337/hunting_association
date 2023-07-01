@@ -5,6 +5,8 @@ import bg.fon.huntingassociation.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.ValidationException;
+
 @Service
 public class UserService {
 
@@ -16,11 +18,15 @@ public class UserService {
     }
 
 
-    public User findUser(String email, String password) {
-        return this.userRepository.findByEmailAndPassword(email,password);
+    public User login(User user) {
+        return userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
     }
 
-    public User login(User user) {
-        return this.userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
+    public User register(User user) throws ValidationException {
+        if(userRepository.existsByEmail(user.getEmail()))
+            throw new ValidationException("Email already in use!");
+        if(userRepository.existsByJmbg(user.getJmbg()))
+            throw  new ValidationException("User with this JMBG already have an account. Please, contact system administrators.");
+        return  userRepository.save(user);
     }
 }

@@ -7,9 +7,5 @@ import java.util.Optional;
 
 public interface VenisonRepository extends JpaRepository<Venison, Long> {
 
-    void deleteVenisonById(Long id);
-
-    Optional<Venison> findVenisonById(Long id);
-
     Venison findByName(String name);
 }
